@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/custom.css">
+	<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+<body onscroll="myFunction()">
+<header class="position-fixed " style="width: 100%; z-index: 999;">
+	<nav id="navigasi" class="navbar p-1 navbar-expand-lg navbar-light bg-transparent">
+		<div class="col-4" style="margin-left: auto;">
+			<a class="navbar-brand white" href="#"><b class="white"><i class="fa fa-lock"></i> C-Lock</b></a>
+		</div>
+		<div class="col-4" style="margin-right: auto;">
+			<a class="navbar-item white float-right m-1" href="#"></a>
+			<a class="navbar-item white float-right m-1 ml-5" href="login.html">Login</a>
+		</div>
+	</nav>
+</header>
+<section class="home-banner-area">
+    <div class="center pt-100" style="margin-bottom: 100px" data-aos="fade-up" data-aos-duration="500">
+    	<h1 class="home-display-title">Selamat datang di C-LOCK!</h1>
+    	<p class="home-display-text">Membuat peminjaman kelas anda menjadi lebih mudah melalui kami!</p>
+    </div>
+
+    <div class="center" data-aos="fade-up" data-aos-anchor-placement="center-bottom" data-aos-duration="500">
+    	<img class="shadow border-white" src="https://www.ukdw.ac.id/wp-content/uploads/2018/02/Lab-B_1.jpg" width="700px">
+    	<p></p>
+    </div>
+
+</section>
+
+<section class="home-section">
+ <div class="center">
+ 	<div class="col-3 font-mont"  data-aos="fade-up" data-aos-duration="500" style="margin-right: auto; margin-left: auto; margin-bottom: 100px;"><h1>3 LANGKAH MUDAH</h1></div>
+ 	<div class="row col-9" style="margin: 0; justify-content: space-between; margin-right: auto; margin-left: auto;">
+ 		<div class="card col-3 p-3 blue-hover no-border bd-hover" data-aos="fade-right" data-aos-anchor-placement="center-bottom" data-aos-duration="500">
+ 			<div><h3><i class="fas fa-sign-in-alt" aria-hidden="true"></i></h3></div>
+ 			<h3 class="font-mont">Login</h3>
+ 			<br>
+ 			<p class="font-mont" style="color:#878787;">Login menggunakan akun yang sudah didaftarkan oleh kampus!</p>
+ 		</div>
+ 		<div class="card col-3 p-3 blue-hover no-border bd-hover" data-aos="fade-up" data-aos-anchor-placement="center-bottom" data-aos-duration="500">
+ 			<div><h3><i class="fas fa-door-open" aria-hidden="true"></i></h3></div>
+ 			<h3 class="font-mont">Pilih Ruangan</h3>
+ 			<br>
+ 			<p class="font-mont" style="color:#878787;">Pilih ruangan yang akan di pinjam</p>
+ 		</div>
+ 		<div class="card col-3 blue-hover p-3 no-border bd-hover" data-aos="fade-left" data-aos-anchor-placement="center-bottom" data-aos-duration="500">
+			<div><h3><i class="fas fa-calendar-alt" aria-hidden="true"></i></h3></div>
+ 			<h3 class="font-mont">Pilih Jadwal</h3>
+ 			<br>
+ 			<p class="font-mont" style="color:#878787;">Pilih jadwal sesuai dengan kebutuhan anda!</p>
+ 		</div>
+ 	</div>
+
+ 	<a href="login.html"><button class="mt-130 btn-custom p-2">Mulai sekarang!</button></a>
+ </div>
+
+</section>
+
+<!-- Footer -->
+<footer class="page-footer font-small blue pt-4">
+
+  <!-- Footer Links -->
+  <div class="container-fluid text-center text-md-left">
+
+    <!-- Grid row -->
+    <div class="row">
+
+      <!-- Grid column -->
+      <div class="col-md-6 mt-md-0 mt-3">
+
+        <!-- Content -->
+        <h5 class="text-uppercase font-mont" style="color:white;">Tentang</h5>
+        <p class="font-mont" style="color:white;">Ini merupakan project IOT yang digunakan untuk sarana belajar mengajar</p>
+
+      </div>
+      <!-- Grid column -->
+
+      <hr class="clearfix w-100 d-md-none pb-3">
+
+      <!-- Grid column -->
+      <div class="col-md-6 mt-md-0 mt-3">
+
+        <!-- Content -->
+        <h5 class="text-uppercase font-mont" style="color:white;">Kontak</h5>
+        <p class="font-mont" style="color:white;"><i class="fas fa-phone"></i> : 08123145689</p>
+        <p class="font-mont" style="color:white;"><i class="fas fa-envelope"></i> : c-lock@clock.company.com</p>
+        <p class="font-mont" style="color:white;"><i class="fas fa-link"></i> : www.clock-company.com</p>
+      </div>
+    </div>
+    <!-- Grid row -->
+
+  </div>
+  <!-- Footer Links -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">&copy; 2019 Copyright:
+    <a href=""> C-Lock</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init(); 
+</script>
+<script type="text/javascript">
+window.onscroll = function() {myFunction()};
+
+function myFunction() {
+  if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+    document.getElementById("navigasi").classList.add("navbar-bg");
+    document.getElementById("navigasi").classList.add("shadow");
+  } else {
+    document.getElementById("navigasi").classList.remove("navbar-bg");
+    document.getElementById("navigasi").classList.remove("shadow");
+  }
+}
+</script>
+</body>
+</html>

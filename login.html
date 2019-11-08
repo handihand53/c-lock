@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/custom.css">
+	<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+<body onscroll="myFunction()" id="content">
+<img style="margin-top: 200px;margin-left: auto;margin-right: auto; display: flex; align-items: center;" src="asset/gif/loading spinner.gif">
+	<h2 style="color: #00e3d8; text-align: center;">Loading</h2>
+
+<script src="jquery-3.4.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+<script src="js/config.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
+<script>
+    AOS.init(); 
+</script>
+<script type="text/javascript">
+window.onscroll = function() {myFunction()};
+
+function myFunction() {
+  if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+    document.getElementById("navigasi").classList.add("navbar-bg");
+    document.getElementById("navigasi").classList.add("shadow");
+  } else {
+    document.getElementById("navigasi").classList.remove("navbar-bg");
+    document.getElementById("navigasi").classList.remove("shadow");
+  }
+}
+</script>
+
+</body>
+</html>
