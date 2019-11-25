@@ -13,6 +13,8 @@ $(document).ready(function() {
 		  });
 		}
 
+
+
 	setTimeout(function(){
     console.log("terpanggil");
     // writeUserData();
@@ -69,7 +71,6 @@ $(document).ready(function() {
 			</table>
 			`;
 	
-	
 		var code = `
 		<header class="position-fixed " style="width: 100%; z-index: 999;">
 	<nav id="navigasi" class="navbar navbar-bg p-1 navbar-expand-lg navbar-light bg-transparent">
@@ -100,6 +101,7 @@ $(document).ready(function() {
 			</select>
 			<input type="date" id="date" disabled>
 		</div>
+	
 		<div class="col-12 mt-3" id="table-content">
 			
 		</div>
@@ -230,6 +232,7 @@ $(document).ready(function() {
 		var button = $(event.relatedTarget) 
 		var recipient = button.data('user')
 		sesi = $(event.relatedTarget).data('value');
+				console.log(sesi);
 		var modal = $(this)
 		var ruangan = $('#ruangan').val();
 		modal.find('.modal-title').text('Peminjaman Lab ' + ruangan.toUpperCase())
@@ -240,6 +243,7 @@ $(document).ready(function() {
 		var button = $(event.relatedTarget) 
 		var recipient = button.data('user')
 		sesi = $(event.relatedTarget).data('value');
+		console.log(sesi);
 		var modal = $(this)
 		var ruangan = $('#ruangan').val();
 		modal.find('.modal-title').text('Peminjaman Lab ' + ruangan.toUpperCase())
@@ -252,16 +256,41 @@ $(document).ready(function() {
 		$('#date').removeAttr("disabled");
 	});
 
+	function uuidv4() {
+	  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+	    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+	  );
+	}
+
 	$('#sendBtn').click(function(){
-	let userRef = firebase.database().ref(year+"/"+month+"/"+day)
+	let userRef = firebase.database().ref("Booking/"+year+""+month+""+day)
 	let usr = firebase.auth().currentUser
-      userRef.child($('#ruangan').val()+"/"+sesi).set(
+	let randomToken = uuidv4()
+	let end = 0
+	let start = 0
+
+		if(sesi=="sesi1"){
+			start = "7.30";
+			end = "10.30";
+		}else if (sesi=="sesi2"){
+			start = "10.30";
+			end = "13.30";
+		}else{
+			start = "13.30";
+			end = "16.30";
+		}
+
+      userRef.child(randomToken).set(
         {
-          'id':usr.uid, 
-          'name': usr.displayName, 
-		  'description':  $('#message-text').val(),
-		  'status': "Belum Ada",
-		  'waktu': sesi
+        	'description':  $('#message-text').val(),
+			'jamEnd': end, 
+			'jamStart': start, 
+			'lab': $('#ruangan').val(),
+			'name': usr.displayName, 
+			'rid': randomToken,
+			'status': "0",
+			'uid':usr.uid,
+			'waktu': sesi
         }
 	  );
 	  
@@ -270,7 +299,7 @@ $(document).ready(function() {
 
 	$('#deleteBtn').click(function(){
 		console.log("deleted")
-		let userRef = firebase.database().ref(year+"/"+month+"/"+day + "/" +$('#ruangan').val()+"/"+sesi);
+		let userRef = firebase.database().ref("Booking/"+year+""+month+""+day+"/"+sesi);
 		userRef.remove();
 		$('#btn_modal_delete_close').click();
 		var date = new Date($('#date').val());
@@ -278,42 +307,45 @@ $(document).ready(function() {
 		month = date.getMonth() + 1;
 		year = date.getFullYear();
 		$("#table-content").html(table);
-		var db_path=year+"/"+month+"/"+day+"/"+$('#ruangan').val();
+		var db_path="Booking/"+year+""+month+""+day;
 			var leadsRef = firebase.database().ref(db_path);
 			console.log(db_path);
 			leadsRef.on('value', function(snapshot) {
 				snapshot.forEach(function(childSnapshot) {
 					var childData = childSnapshot.val();
-					// if(!)
+					console.log(childData);
 					console.log(childData.waktu);
-					if(childData.waktu=="sesi1"){
-						console.log("masuk sesi 1")
-						$('#s1-nama').html(childData.name);
-						$('#s1-desc').html(childData.description);
-						$('#s1-status').html(childData.status);
-						if(user.uid==childData.id)
-							$('#s1-button').html(`<button class="btn-hapus data" id="del-sesi1" data-toggle="modal" data-target="#deleteModal" data-value="sesi1">Hapus</button>`);
-						else
-							$('#s1-button').html('');
-					}else if(childData.waktu=="sesi2"){
-						$('#s2-nama').html(childData.name);
-						$('#s2-desc').html(childData.description);
-						$('#s2-status').html(childData.status);
-						if(user.uid==childData.id)
-							$('#s2-button').html(`<button class="btn-hapus data" id="del-sesi2" data-toggle="modal" data-target="#deleteModal" data-value="sesi2">Hapus</button>`);
-						else
-							$('#s2-button').html('');
-					}else if(childData.waktu=="sesi3"){
-						$('#s3-nama').html(childData.name);
-						$('#s3-desc').html(childData.description);
-						$('#s3-status').html(childData.status);
-						if(user.uid==childData.id)
-							$('#s3-button').html(`<button class="btn-hapus data" id="del-sesi3" data-toggle="modal" data-target="#deleteModal" data-value="sesi3">Hapus</button>`);
-						else
-							$('#s3-button').html('');
+					if($('#ruangan').val()==childData.lab){
+						if(childData.waktu=="sesi1"){
+							console.log("masuk sesi 1")
+							$('#s1-nama').html(childData.name);
+							$('#s1-desc').html(childData.description);
+							$('#s1-status').html(childData.status);
+							if(user.uid==childData.uid)
+								$('#s1-button').html(`<button class="btn-hapus data" id="del-sesi1" data-toggle="modal" data-target="#deleteModal" data-value="sesi1">Hapus</button>`);
+							else
+								$('#s1-button').html('');
+						}else if(childData.waktu=="sesi2"){
+							$('#s2-nama').html(childData.name);
+							$('#s2-desc').html(childData.description);
+							$('#s2-status').html(childData.status);
+							if(user.uid==childData.uid)
+								$('#s2-button').html(`<button class="btn-hapus data" id="del-sesi2" data-toggle="modal" data-target="#deleteModal" data-value="sesi2">Hapus</button>`);
+							else
+								$('#s2-button').html('');
+						}else if(childData.waktu=="sesi3"){
+							$('#s3-nama').html(childData.name);
+							$('#s3-desc').html(childData.description);
+							$('#s3-status').html(childData.status);
+							if(user.uid==childData.uid)
+								$('#s3-button').html(`<button class="btn-hapus data" id="del-sesi3" data-toggle="modal" data-target="#deleteModal" data-value="sesi3">Hapus</button>`);
+							else
+								$('#s3-button').html('');
+						}
 					}
 				}); 
 			});
+
 	});
 
 	
@@ -330,41 +362,42 @@ $(document).ready(function() {
 			$('#date').val("");
 			$("#table-content").html("");
 		}else{
-			// select data
 			console.log("Ada");
-			var db_path=year+"/"+month+"/"+day+"/"+$('#ruangan').val();
+			var db_path="Booking/"+year+""+month+""+day;
 			var leadsRef = firebase.database().ref(db_path);
 			console.log(db_path);
 			leadsRef.on('value', function(snapshot) {
 				snapshot.forEach(function(childSnapshot) {
 					var childData = childSnapshot.val();
-					// if(!)
+					console.log(childData);
 					console.log(childData.waktu);
-					if(childData.waktu=="sesi1"){
-						console.log("masuk sesi 1")
-						$('#s1-nama').html(childData.name);
-						$('#s1-desc').html(childData.description);
-						$('#s1-status').html(childData.status);
-						if(user.uid==childData.id)
-							$('#s1-button').html(`<button class="btn-hapus data" id="del-sesi1" data-toggle="modal" data-target="#deleteModal" data-value="sesi1">Hapus</button>`);
-						else
-							$('#s1-button').html('');
-					}else if(childData.waktu=="sesi2"){
-						$('#s2-nama').html(childData.name);
-						$('#s2-desc').html(childData.description);
-						$('#s2-status').html(childData.status);
-						if(user.uid==childData.id)
-							$('#s2-button').html(`<button class="btn-hapus data" id="del-sesi2" data-toggle="modal" data-target="#deleteModal" data-value="sesi2">Hapus</button>`);
-						else
-							$('#s2-button').html('');
-					}else if(childData.waktu=="sesi3"){
-						$('#s3-nama').html(childData.name);
-						$('#s3-desc').html(childData.description);
-						$('#s3-status').html(childData.status);
-						if(user.uid==childData.id)
-							$('#s3-button').html(`<button class="btn-hapus data" id="del-sesi3" data-toggle="modal" data-target="#deleteModal" data-value="sesi3">Hapus</button>`);
-						else
-							$('#s3-button').html('');
+					if($('#ruangan').val()==childData.lab){
+						if(childData.waktu=="sesi1"){
+							console.log("masuk sesi 1")
+							$('#s1-nama').html(childData.name);
+							$('#s1-desc').html(childData.description);
+							$('#s1-status').html(childData.status);
+							if(user.uid==childData.uid)
+								$('#s1-button').html(`<button class="btn-hapus data" id="del-sesi1" data-toggle="modal" data-target="#deleteModal" data-value=`+childData.rid+`>Hapus</button>`);
+							else
+								$('#s1-button').html('');
+						}else if(childData.waktu=="sesi2"){
+							$('#s2-nama').html(childData.name);
+							$('#s2-desc').html(childData.description);
+							$('#s2-status').html(childData.status);
+							if(user.uid==childData.uid)
+								$('#s2-button').html(`<button class="btn-hapus data" id="del-sesi2" data-toggle="modal" data-target="#deleteModal" data-value=`+childData.rid+`>Hapus</button>`);
+							else
+								$('#s2-button').html('');
+						}else if(childData.waktu=="sesi3"){
+							$('#s3-nama').html(childData.name);
+							$('#s3-desc').html(childData.description);
+							$('#s3-status').html(childData.status);
+							if(user.uid==childData.uid)
+								$('#s3-button').html(`<button class="btn-hapus data" id="del-sesi3" data-toggle="modal" data-target="#deleteModal" data-value=`+childData.rid+`>Hapus</button>`);
+							else
+								$('#s3-button').html('');
+						}
 					}
 				}); 
 			});
