@@ -46,7 +46,7 @@ $(document).ready(function() {
 					<td id="s1-nama">-</td>
 					<td id="s1-status">-</td>
 					<td id="s1-desc">-</td>
-					<td id="s1-button"><button class="btn-pinjam data" data-toggle="modal" data-target="#exampleModal" data-value="sesi1">Pinjam</button></td>
+					<td id="s1-button"><button class="btn-pinjam data" data-toggle="modal" data-target="#exampleModal" data-value="1">Pinjam</button></td>
 					<!-- <th scope="row">Sesi 1</th>
 					<td>Pak Kuncoro - IOT</td>
 					<td class="green bold">Terpinjam</td>
@@ -58,14 +58,14 @@ $(document).ready(function() {
 					<td id="s2-nama">-</td>
 					<td id="s2-status">-</td>
 					<td id="s2-desc">-</td>
-					<td id="s2-button"><button class="btn-pinjam data" data-toggle="modal" data-target="#exampleModal" data-value="sesi2">Pinjam</button></td>
+					<td id="s2-button"><button class="btn-pinjam data" data-toggle="modal" data-target="#exampleModal" data-value="2">Pinjam</button></td>
 				</tr>
 				<tr>
 					<th scope="row">Sesi 3</th>
 					<td id="s3-nama">-</td>
 					<td id="s3-status">-</td>
 					<td id="s3-desc">-</td>
-					<td id="s3-button"><button class="btn-pinjam data" data-toggle="modal" data-target="#exampleModal" data-value="sesi3">Pinjam</button></td>
+					<td id="s3-button"><button class="btn-pinjam data" data-toggle="modal" data-target="#exampleModal" data-value="3">Pinjam</button></td>
 				</tr>
 			</tbody>
 			</table>
@@ -257,10 +257,13 @@ $(document).ready(function() {
 	});
 
 	function uuidv4() {
-	  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-	    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-	  );
+	  return 'IOT-xxxxxxxx4xxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	    return v.toString(16);
+	  });
 	}
+
+console.log(uuidv4());
 
 	$('#sendBtn').click(function(){
 	let userRef = firebase.database().ref("Booking/"+year+""+month+""+day)
@@ -269,15 +272,15 @@ $(document).ready(function() {
 	let end = 0
 	let start = 0
 
-		if(sesi=="sesi1"){
-			start = "7.30";
-			end = "10.30";
-		}else if (sesi=="sesi2"){
-			start = "10.30";
-			end = "13.30";
+		if(sesi=="1"){
+			start = "07:30:00";
+			end = "10:30:00";
+		}else if (sesi=="2"){
+			start = "10:30:00";
+			end = "13:30:00";
 		}else{
-			start = "13.30";
-			end = "16.30";
+			start = "13:30:00";
+			end = "16:30:00";
 		}
 
       userRef.child(randomToken).set(
@@ -316,7 +319,7 @@ $(document).ready(function() {
 					console.log(childData);
 					console.log(childData.waktu);
 					if($('#ruangan').val()==childData.lab){
-						if(childData.waktu=="sesi1"){
+						if(childData.waktu=="1"){
 							console.log("masuk sesi 1")
 							$('#s1-nama').html(childData.name);
 							$('#s1-desc').html(childData.description);
@@ -325,7 +328,7 @@ $(document).ready(function() {
 								$('#s1-button').html(`<button class="btn-hapus data" id="del-sesi1" data-toggle="modal" data-target="#deleteModal" data-value="sesi1">Hapus</button>`);
 							else
 								$('#s1-button').html('');
-						}else if(childData.waktu=="sesi2"){
+						}else if(childData.waktu=="2"){
 							$('#s2-nama').html(childData.name);
 							$('#s2-desc').html(childData.description);
 							$('#s2-status').html(childData.status);
@@ -333,7 +336,7 @@ $(document).ready(function() {
 								$('#s2-button').html(`<button class="btn-hapus data" id="del-sesi2" data-toggle="modal" data-target="#deleteModal" data-value="sesi2">Hapus</button>`);
 							else
 								$('#s2-button').html('');
-						}else if(childData.waktu=="sesi3"){
+						}else if(childData.waktu=="3"){
 							$('#s3-nama').html(childData.name);
 							$('#s3-desc').html(childData.description);
 							$('#s3-status').html(childData.status);
@@ -372,7 +375,7 @@ $(document).ready(function() {
 					console.log(childData);
 					console.log(childData.waktu);
 					if($('#ruangan').val()==childData.lab){
-						if(childData.waktu=="sesi1"){
+						if(childData.waktu=="1"){
 							console.log("masuk sesi 1")
 							$('#s1-nama').html(childData.name);
 							$('#s1-desc').html(childData.description);
@@ -381,7 +384,7 @@ $(document).ready(function() {
 								$('#s1-button').html(`<button class="btn-hapus data" id="del-sesi1" data-toggle="modal" data-target="#deleteModal" data-value=`+childData.rid+`>Hapus</button>`);
 							else
 								$('#s1-button').html('');
-						}else if(childData.waktu=="sesi2"){
+						}else if(childData.waktu=="2"){
 							$('#s2-nama').html(childData.name);
 							$('#s2-desc').html(childData.description);
 							$('#s2-status').html(childData.status);
@@ -389,7 +392,7 @@ $(document).ready(function() {
 								$('#s2-button').html(`<button class="btn-hapus data" id="del-sesi2" data-toggle="modal" data-target="#deleteModal" data-value=`+childData.rid+`>Hapus</button>`);
 							else
 								$('#s2-button').html('');
-						}else if(childData.waktu=="sesi3"){
+						}else if(childData.waktu=="3"){
 							$('#s3-nama').html(childData.name);
 							$('#s3-desc').html(childData.description);
 							$('#s3-status').html(childData.status);
