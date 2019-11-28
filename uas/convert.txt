@@ -1,0 +1,4 @@
+blok 1	
+blok 4
+strcpy((char *)byteArray,"0123");
+String myString = String((char *)byteArray);
