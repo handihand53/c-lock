@@ -1,14 +1,3 @@
-/**
- *  QRCode
- *
- *  A quick example of generating a QR code.
- *
- *  This prints the QR code to the serial monitor as solid blocks. Each module
- *  is two characters wide, since the monospace font used in the serial monitor
- *  is approximately twice as tall as wide.
- *
- */
-
 #include "qrcode.h"
 
 void setup() {
