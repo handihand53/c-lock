@@ -218,7 +218,7 @@ $(document).ready(function() {
 		firebase.auth().signOut();
 	}
 
-		
+	
 	let sesi = 0;
 	let day;
 	let month;
@@ -306,7 +306,7 @@ console.log(uuidv4());
 		userRef.remove();
 		$('#btn_modal_delete_close').click();
 		var date = new Date($('#date').val());
-		day = date.getDate();
+		day = ("0" + date.getDate()).slice(-2);
 		month = date.getMonth() + 1;
 		year = date.getFullYear();
 		$("#table-content").html(table);
@@ -357,7 +357,7 @@ console.log(uuidv4());
 
 		$("#table-content").html(table);
 		var date = new Date($('#date').val());
-		day = date.getDate();
+		day = ("0" + date.getDate()).slice(-2);
 		month = date.getMonth() + 1;
 		year = date.getFullYear();
 		if(date.getDay() == 6 || date.getDay() == 0) {
