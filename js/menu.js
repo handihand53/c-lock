@@ -293,7 +293,7 @@ console.log(uuidv4());
 			'rid': randomToken,
 			'status': "0",
 			'uid':usr.uid,
-			'waktu': sesi
+			'waktu': sesi.toString()
         }
 	  );
 	  

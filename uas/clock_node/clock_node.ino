@@ -70,7 +70,7 @@ void printLocalTime()
 
 }
 
-
+void printQRCode();
 void printResult(FirebaseData &data);
 
 void setup()
@@ -112,13 +112,14 @@ void getDataFirebase(){
   //Size and its write timeout e.g. tiny (1s), small (10s), medium (30s) and large (60s).
   Firebase.setwriteSizeLimit(firebaseData, "tiny");
 
-  if (Firebase.getJSON(firebaseData, "/Booking/20191202/"))
+  if (Firebase.getJSON(firebaseData, "/Booking/"+tgl+"/"))
   {
     printResult(firebaseData);
     if(jam>"07:00:00" && jam<"10:30:00"){
       for(int i=0;i<3;i++){
         if(waktu[i]=="1" && lab[i]=="a"){
           id=token[i];
+          Serial.println(stats[i]);
           if(stats[i]=="1"){
             digitalWrite(pin,HIGH);
           }else if(stats[i]=="0"){
@@ -139,7 +140,7 @@ void getDataFirebase(){
           break;
         }
       }
-    }else if(jam>"13:30:00" && jam<"19:30:00"){
+    }else if(jam>"13:30:00" && jam<"16:30:00"){
       for(int i=0;i<3;i++){
         if(waktu[i]=="3" && lab[i]=="a"){
           id=token[i];
@@ -161,27 +162,27 @@ void getDataFirebase(){
     Serial.println(firebaseData.errorReason());
   }
 
-  if (Firebase.getString(firebaseData, "/Booking/"+tgl+"/"+id+"/jamStart"))
-  {
-    Serial.print("Mulai dari jam: ");
-    jamStart=firebaseData.stringData();
-    Serial.println(firebaseData.stringData());    
-  }
-  else
-  {
-    Serial.println(firebaseData.errorReason());
-  }
-
-  if (Firebase.getString(firebaseData, "/Booking/"+tgl+"/"+id+"/jamEnd"))
-  {
-    Serial.print("Berakhir jam: ");
-    jamEnd=firebaseData.stringData();
-    Serial.println(firebaseData.stringData());    
-  }
-  else
-  {
-    Serial.println(firebaseData.errorReason());
-  }
+//  if (Firebase.getString(firebaseData, "/Booking/"+tgl+"/"+id+"/jamStart"))
+//  {
+//    Serial.print("Mulai dari jam: ");
+//    jamStart=firebaseData.stringData();
+//    Serial.println(firebaseData.stringData());    
+//  }
+//  else
+//  {
+//    Serial.println(firebaseData.errorReason());
+//  }
+//
+//  if (Firebase.getString(firebaseData, "/Booking/"+tgl+"/"+id+"/jamEnd"))
+//  {
+//    Serial.print("Berakhir jam: ");
+//    jamEnd=firebaseData.stringData();
+//    Serial.println(firebaseData.stringData());    
+//  }
+//  else
+//  {
+//    Serial.println(firebaseData.errorReason());
+//  }
 }
 
 void printResult(FirebaseData &data)
