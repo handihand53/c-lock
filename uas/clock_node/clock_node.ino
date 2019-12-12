@@ -2,6 +2,9 @@
 #include <FirebaseESP32.h>
 #include "time.h"
 
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
+
 #define FIREBASE_HOST "c-lock-iot.firebaseio.com"
 #define FIREBASE_AUTH "O3nDMGOWrNoAilWP7zOEP9BPcqkGqC1SvIEF18NR"
 #define WIFI_SSID "KeluargaHermawan"
@@ -42,6 +45,7 @@ String waktu[3];
 String stats[3];
 String lab[3];
 
+LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
 void printLocalTime()
 {
@@ -93,6 +97,15 @@ void setup()
     delay(300);
   }
   pinMode(pin, OUTPUT);
+
+  //display lcd
+  lcd.init();                      // initialize the lcd 
+  lcd.init();
+  pinMode(ledpin, OUTPUT);
+  lcd.backlight();
+  lcd.setCursor(1,0);
+  lcd.print("C-Lock");
+  
   Serial.println();
   Serial.print("Connected with IP: ");
   Serial.println(WiFi.localIP());
@@ -122,8 +135,16 @@ void getDataFirebase(){
           Serial.println(stats[i]);
           if(stats[i]=="1"){
             digitalWrite(pin,HIGH);
+
+            //DISPLAY LCD
+            lcd.setCursor(1,1);
+            lcd.print("PINTU TERBUKA");
           }else if(stats[i]=="0"){
             digitalWrite(pin,LOW);
+            
+            //DISPLAY LCD
+            lcd.setCursor(1,1);
+            lcd.print("PINTU TERTUTUP");
           }
           break;
         }
@@ -134,8 +155,16 @@ void getDataFirebase(){
           id=token[i];
           if(stats[i]=="1"){
             digitalWrite(pin,HIGH);
+
+            //DISPLAY LCD
+            lcd.setCursor(1,1);
+            lcd.print("PINTU TERBUKA");
           }else if(stats[i]=="0"){
             digitalWrite(pin,LOW);
+
+            //DISPLAY LCD
+            lcd.setCursor(1,1);
+            lcd.print("PINTU TERTUTUP");
           }
           break;
         }
@@ -147,8 +176,16 @@ void getDataFirebase(){
           Serial.println(stats[i]);
           if(stats[i]=="1"){
             digitalWrite(pin,HIGH);
+
+            //DISPLAY LCD
+            lcd.setCursor(1,1);
+            lcd.print("PINTU TERBUKA");
           }else if(stats[i]=="0"){
             digitalWrite(pin,LOW);
+
+            //DISPLAY LCD
+            lcd.setCursor(1,1);
+            lcd.print("PINTU TERTUTUP");
           }
           break;
         }
