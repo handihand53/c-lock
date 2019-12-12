@@ -103,8 +103,6 @@ void setup()
   lcd.init();                      // initialize the lcd 
   lcd.init();
   lcd.backlight();
-  lcd.setCursor(1,0);
-  lcd.print("C-Lock");
   
   Serial.println();
   Serial.print("Connected with IP: ");
@@ -137,18 +135,27 @@ void getDataFirebase(){
             digitalWrite(pin,HIGH);
             lcd.clear();
             //DISPLAY LCD
-            lcd.setCursor(1,1);
-            lcd.print("PINTU TERBUKA");
-            if(distanceSensor.measureDistanceCm()>=40){
+            lcd.setCursor(1,0);
+            lcd.print("SILAHKAN MASUK");
+            if(distanceSensor.measureDistanceCm()>=15){
               Firebase.setString(firebaseData, "/Booking/"+tgl+"/"+id+"/pintu", "Terbuka");
               Serial.println("terbuka gitu");
+              lcd.setCursor(1,1);
+              lcd.print("Pintu Terbuka");
+            }
+            else if(distanceSensor.measureDistanceCm()<15){
+//              lcd.clear();
+              lcd.setCursor(1,1);
+              lcd.print("Pintu Tertutup");
             }
           }else if(stats[i]=="0"){
             digitalWrite(pin,LOW);
             lcd.clear();
             //DISPLAY LCD
+            lcd.setCursor(1,0);
+            lcd.print("SUDAH KELUAR");
             lcd.setCursor(1,1);
-            lcd.print("PINTU TERTUTUP");
+            lcd.print("C-Lock");
           }
           break;
         }
@@ -159,19 +166,29 @@ void getDataFirebase(){
           id=token[i];
           if(stats[i]=="1"){
             digitalWrite(pin,HIGH);
-            if(distanceSensor.measureDistanceCm()>=40){
+            lcd.clear();
+            //DISPLAY LCD
+            lcd.setCursor(1,0);
+            lcd.print("SILAHKAN MASUK");
+            if(distanceSensor.measureDistanceCm()>=15){
               Firebase.setString(firebaseData, "/Booking/"+tgl+"/"+id+"/pintu", "Terbuka");
               Serial.println("terbuka gitu");
+              lcd.setCursor(1,1);
+              lcd.print("Pintu Terbuka");
             }
-            //DISPLAY LCD
-            lcd.setCursor(1,1);
-            lcd.print("PINTU TERBUKA");
+            else if(distanceSensor.measureDistanceCm()<15){
+//              lcd.clear();
+              lcd.setCursor(1,1);
+              lcd.print("Pintu Tertutup");
+            }
           }else if(stats[i]=="0"){
             digitalWrite(pin,LOW);
-
+            lcd.clear();
             //DISPLAY LCD
+            lcd.setCursor(1,0);
+            lcd.print("SUDAH KELUAR");
             lcd.setCursor(1,1);
-            lcd.print("PINTU TERTUTUP");
+            lcd.print("C-Lock");
           }
           break;
         }
@@ -183,16 +200,30 @@ void getDataFirebase(){
           Serial.println(stats[i]);
           if(stats[i]=="1"){
             digitalWrite(pin,HIGH);
-
+            lcd.clear();
             //DISPLAY LCD
-            lcd.setCursor(1,1);
-            lcd.print("PINTU TERBUKA");
+            lcd.setCursor(1,0);
+            lcd.print("SILAHKAN MASUK");
+            if(distanceSensor.measureDistanceCm()>=15){
+              Firebase.setString(firebaseData, "/Booking/"+tgl+"/"+id+"/pintu", "Terbuka");
+              Serial.println("terbuka gitu");
+//              lcd.clear();
+              lcd.setCursor(1,1);
+              lcd.print("Pintu Terbuka");
+            }
+            else if(distanceSensor.measureDistanceCm()<15){
+//              lcd.clear();
+              lcd.setCursor(1,1);
+              lcd.print("Pintu Tertutup");
+            }
           }else if(stats[i]=="0"){
             digitalWrite(pin,LOW);
-
+            lcd.clear();
             //DISPLAY LCD
+            lcd.setCursor(1,0);
+            lcd.print("SUDAH KELUAR");
             lcd.setCursor(1,1);
-            lcd.print("PINTU TERTUTUP");
+            lcd.print("C-Lock");
           }
           break;
         }
@@ -268,13 +299,13 @@ void printResult(FirebaseData &data)
 
 void loop()
 {
+  delay(200);
   printLocalTime();
   getDataFirebase();
   Serial.println(tgl);
   Serial.println(jam);
   Serial.println(id);
-  printQRCode();
-  delay(10000);
+  Serial.println(distanceSensor.measureDistanceCm());
 }
 
 void printQRCode(){

@@ -37,6 +37,7 @@ $(document).ready(function() {
 				<th scope="col">Peminjam</th>
 				<th scope="col">Status</th>
 				<th scope="col">Deskripsi</th>
+				<th scope="col">Status pintu</th>
 				<th scope="col">Pinjam</th>
 				</tr>
 			</thead>
@@ -46,18 +47,15 @@ $(document).ready(function() {
 					<td id="s1-nama">-</td>
 					<td id="s1-status">-</td>
 					<td id="s1-desc">-</td>
+					<td id="s1-door">-</td>
 					<td id="s1-button"><button class="btn-pinjam data" data-toggle="modal" data-target="#exampleModal" data-value="1">Pinjam</button></td>
-					<!-- <th scope="row">Sesi 1</th>
-					<td>Pak Kuncoro - IOT</td>
-					<td class="green bold">Terpinjam</td>
-					<td>Belum Masuk</td>
-					<td>-</td> -->
 				</tr>
 				<tr>
 					<th scope="row">Sesi 2</th>
 					<td id="s2-nama">-</td>
 					<td id="s2-status">-</td>
 					<td id="s2-desc">-</td>
+					<td id="s2-door">-</td>
 					<td id="s2-button"><button class="btn-pinjam data" data-toggle="modal" data-target="#exampleModal" data-value="2">Pinjam</button></td>
 				</tr>
 				<tr>
@@ -65,6 +63,7 @@ $(document).ready(function() {
 					<td id="s3-nama">-</td>
 					<td id="s3-status">-</td>
 					<td id="s3-desc">-</td>
+					<td id="s3-door">-</td>
 					<td id="s3-button"><button class="btn-pinjam data" data-toggle="modal" data-target="#exampleModal" data-value="3">Pinjam</button></td>
 				</tr>
 			</tbody>
@@ -293,7 +292,8 @@ console.log(uuidv4());
 			'rid': randomToken,
 			'status': "0",
 			'uid':usr.uid,
-			'waktu': sesi.toString()
+			'waktu': sesi.toString(),
+			'pintu': "Tertutup"
         }
 	  );
 	  
@@ -323,7 +323,12 @@ console.log(uuidv4());
 							console.log("masuk sesi 1")
 							$('#s1-nama').html(childData.name);
 							$('#s1-desc').html(childData.description);
-							$('#s1-status').html(childData.status);
+								if(childData.status==0)
+									var a= "Belum discan"
+								else
+									var a= "Sudah discan"
+							$('#s1-status').html(a);
+							$('#s1-door').html(childData.pintu);
 							if(user.uid==childData.uid)
 								$('#s1-button').html(`<button class="btn-hapus data" id="del-sesi1" data-toggle="modal" data-target="#deleteModal" data-value="sesi1">Hapus</button>`);
 							else
@@ -331,7 +336,12 @@ console.log(uuidv4());
 						}else if(childData.waktu=="2"){
 							$('#s2-nama').html(childData.name);
 							$('#s2-desc').html(childData.description);
-							$('#s2-status').html(childData.status);
+							if(childData.status==0)
+									var a= "Belum discan"
+								else
+									var a= "Sudah discan"
+							$('#s2-status').html(a);
+							$('#s2-door').html(childData.pintu);	
 							if(user.uid==childData.uid)
 								$('#s2-button').html(`<button class="btn-hapus data" id="del-sesi2" data-toggle="modal" data-target="#deleteModal" data-value="sesi2">Hapus</button>`);
 							else
@@ -339,7 +349,12 @@ console.log(uuidv4());
 						}else if(childData.waktu=="3"){
 							$('#s3-nama').html(childData.name);
 							$('#s3-desc').html(childData.description);
-							$('#s3-status').html(childData.status);
+							if(childData.status==0)
+									var a= "Belum discan"
+								else
+									var a= "Sudah discan"
+							$('#s3-status').html(a);
+							$('#s3-door').html(childData.pintu);
 							if(user.uid==childData.uid)
 								$('#s3-button').html(`<button class="btn-hapus data" id="del-sesi3" data-toggle="modal" data-target="#deleteModal" data-value="sesi3">Hapus</button>`);
 							else
@@ -379,7 +394,12 @@ console.log(uuidv4());
 							console.log("masuk sesi 1")
 							$('#s1-nama').html(childData.name);
 							$('#s1-desc').html(childData.description);
-							$('#s1-status').html(childData.status);
+							if(childData.status==0)
+									var a= "Belum discan"
+								else
+									var a= "Sudah discan"
+							$('#s1-status').html(a);
+							$('#s1-door').html(childData.pintu);
 							if(user.uid==childData.uid)
 								$('#s1-button').html(`<button class="btn-hapus data" id="del-sesi1" data-toggle="modal" data-target="#deleteModal" data-value=`+childData.rid+`>Hapus</button>`);
 							else
@@ -387,7 +407,12 @@ console.log(uuidv4());
 						}else if(childData.waktu=="2"){
 							$('#s2-nama').html(childData.name);
 							$('#s2-desc').html(childData.description);
-							$('#s2-status').html(childData.status);
+							if(childData.status==0)
+									var a= "Belum discan"
+								else
+									var a= "Sudah discan"
+							$('#s2-status').html(a);
+							$('#s2-door').html(childData.pintu);
 							if(user.uid==childData.uid)
 								$('#s2-button').html(`<button class="btn-hapus data" id="del-sesi2" data-toggle="modal" data-target="#deleteModal" data-value=`+childData.rid+`>Hapus</button>`);
 							else
@@ -395,7 +420,13 @@ console.log(uuidv4());
 						}else if(childData.waktu=="3"){
 							$('#s3-nama').html(childData.name);
 							$('#s3-desc').html(childData.description);
-							$('#s3-status').html(childData.status);
+							if(childData.status==0)
+									var a= "Belum discan"
+								else
+									var a= "Sudah discan"
+							$('#s3-status').html(a);
+							$('#s3-door').html(childData.pintu);
+							
 							if(user.uid==childData.uid)
 								$('#s3-button').html(`<button class="btn-hapus data" id="del-sesi3" data-toggle="modal" data-target="#deleteModal" data-value=`+childData.rid+`>Hapus</button>`);
 							else
